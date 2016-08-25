@@ -1,0 +1,62 @@
+I"&(function() {
+  var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  AppDemo.Routers.PostsRouter = (function(superClass) {
+    extend(PostsRouter, superClass);
+
+    function PostsRouter() {
+      return PostsRouter.__super__.constructor.apply(this, arguments);
+    }
+
+    PostsRouter.prototype.initialize = function(options) {
+      this.posts = new AppDemo.Collections.PostsCollection();
+      return this.posts.reset(options.posts);
+    };
+
+    PostsRouter.prototype.routes = {
+      "new": "newPost",
+      "index": "index",
+      ":id/edit": "edit",
+      ":id": "show",
+      ".*": "index"
+    };
+
+    PostsRouter.prototype.newPost = function() {
+      this.view = new AppDemo.Views.Posts.NewView({
+        collection: this.posts
+      });
+      return $("#posts").html(this.view.render().el);
+    };
+
+    PostsRouter.prototype.index = function() {
+      this.view = new AppDemo.Views.Posts.IndexView({
+        collection: this.posts
+      });
+      return $("#posts").html(this.view.render().el);
+    };
+
+    PostsRouter.prototype.show = function(id) {
+      var post;
+      post = this.posts.get(id);
+      this.view = new AppDemo.Views.Posts.ShowView({
+        model: post
+      });
+      return $("#posts").html(this.view.render().el);
+    };
+
+    PostsRouter.prototype.edit = function(id) {
+      var post;
+      post = this.posts.get(id);
+      this.view = new AppDemo.Views.Posts.EditView({
+        model: post
+      });
+      return $("#posts").html(this.view.render().el);
+    };
+
+    return PostsRouter;
+
+  })(Backbone.Router);
+
+}).call(this);
+:ET

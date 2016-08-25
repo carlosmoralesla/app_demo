@@ -1,0 +1,62 @@
+I"²(function() {
+  var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  AppDemo.Routers.SuppliersRouter = (function(superClass) {
+    extend(SuppliersRouter, superClass);
+
+    function SuppliersRouter() {
+      return SuppliersRouter.__super__.constructor.apply(this, arguments);
+    }
+
+    SuppliersRouter.prototype.initialize = function(options) {
+      this.suppliers = new AppDemo.Collections.SuppliersCollection();
+      return this.suppliers.reset(options.suppliers);
+    };
+
+    SuppliersRouter.prototype.routes = {
+      "new": "newSupplier",
+      "index": "index",
+      ":id/edit": "edit",
+      ":id": "show",
+      ".*": "index"
+    };
+
+    SuppliersRouter.prototype.newSupplier = function() {
+      this.view = new AppDemo.Views.Suppliers.NewView({
+        collection: this.suppliers
+      });
+      return $("#suppliers").html(this.view.render().el);
+    };
+
+    SuppliersRouter.prototype.index = function() {
+      this.view = new AppDemo.Views.Suppliers.IndexView({
+        collection: this.suppliers
+      });
+      return $("#suppliers").html(this.view.render().el);
+    };
+
+    SuppliersRouter.prototype.show = function(id) {
+      var supplier;
+      supplier = this.suppliers.get(id);
+      this.view = new AppDemo.Views.Suppliers.ShowView({
+        model: supplier
+      });
+      return $("#suppliers").html(this.view.render().el);
+    };
+
+    SuppliersRouter.prototype.edit = function(id) {
+      var supplier;
+      supplier = this.suppliers.get(id);
+      this.view = new AppDemo.Views.Suppliers.EditView({
+        model: supplier
+      });
+      return $("#suppliers").html(this.view.render().el);
+    };
+
+    return SuppliersRouter;
+
+  })(Backbone.Router);
+
+}).call(this);
+:ET

@@ -1,0 +1,25 @@
+I"¼(function() {
+  window.Post = {
+    Models: {},
+    Collections: {},
+    Views: {},
+    Routers: {},
+    initialize: function() {
+      new Post.Routers.Application;
+      return Backbone.history.start({
+        pushState: true
+      });
+    }
+  };
+
+  $(document).ready(function() {
+    return Post.initialize();
+  });
+
+  $(document).on('page:load', function() {
+    Backbone.history.stop();
+    return Post.initialize();
+  });
+
+}).call(this);
+:ET

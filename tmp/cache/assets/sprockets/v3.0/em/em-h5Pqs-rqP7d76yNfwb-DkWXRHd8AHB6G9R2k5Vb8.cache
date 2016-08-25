@@ -1,0 +1,39 @@
+I"ƒ(function() {
+  var base,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  (base = AppDemo.Views).Suppliers || (base.Suppliers = {});
+
+  AppDemo.Views.Suppliers.SupplierView = (function(superClass) {
+    extend(SupplierView, superClass);
+
+    function SupplierView() {
+      return SupplierView.__super__.constructor.apply(this, arguments);
+    }
+
+    SupplierView.prototype.template = JST["backbone/templates/suppliers/supplier"];
+
+    SupplierView.prototype.events = {
+      "click .destroy": "destroy"
+    };
+
+    SupplierView.prototype.tagName = "tr";
+
+    SupplierView.prototype.destroy = function() {
+      this.model.destroy();
+      this.remove();
+      return false;
+    };
+
+    SupplierView.prototype.render = function() {
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    };
+
+    return SupplierView;
+
+  })(Backbone.View);
+
+}).call(this);
+:ET
